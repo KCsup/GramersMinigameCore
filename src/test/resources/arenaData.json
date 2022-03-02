@@ -1,0 +1,18 @@
+{
+    "countdownSeconds": 30,
+    "requiredPlayers": 2,
+    "lobbySpawn": {
+        
+    },
+    "arenas": [
+        {
+            "name": "NAME",
+            "spawn": {
+
+            },
+            "gameSpawn": {
+
+            }
+        }
+    ]
+}
