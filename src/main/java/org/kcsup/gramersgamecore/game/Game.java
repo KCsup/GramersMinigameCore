@@ -18,6 +18,7 @@ public class Game {
     }
 
     public void stop() {
+        arena.setGameState(GameState.RESTARTING);
         arena.reset();
     }
 

@@ -53,6 +53,7 @@ public class Arena {
     }
 
     public void start() {
+        gameState = GameState.LIVE;
         game.start();
     }
 
