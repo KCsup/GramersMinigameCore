@@ -17,7 +17,7 @@ public class Countdown extends BukkitRunnable {
         arena.setGameState(GameState.COUNTDOWN);
         this.runTaskTimer(arena.getMain(), 0, 20);
 
-        // TODO: sign stuff fuck you
+        // TODO: sign stuff
     }
 
     @Override

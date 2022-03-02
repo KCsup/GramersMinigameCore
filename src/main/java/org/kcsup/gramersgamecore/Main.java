@@ -11,7 +11,6 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
@@ -25,7 +24,5 @@ public final class Main extends JavaPlugin {
     public ArenaManager getArenaManager() { return arenaManager; }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
+    public void onDisable() {}
 }
