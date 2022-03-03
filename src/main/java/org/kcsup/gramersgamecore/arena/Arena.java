@@ -109,8 +109,7 @@ public class Arena {
             Player player = Bukkit.getPlayer(uuid);
             if(player == null) continue;
 
-            player.sendTitle(title,subtitle);
-            sendMessage(ChatColor.GREEN + player.getName() + " has joined!");
+            player.sendTitle(title, subtitle);
         }
     }
 

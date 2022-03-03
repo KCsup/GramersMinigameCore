@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.kcsup.gramersgamecore.Main;
 import org.kcsup.gramersgamecore.game.GameState;
+import org.kcsup.gramersgamecore.util.Util;
 
 import java.io.File;
 import java.io.FileReader;
@@ -164,7 +165,7 @@ public class ArenaManager {
             Object loc = file.get("lobbySpawn");
 
             if(loc == JSONObject.NULL) return null;
-            else return jsonToLocation((new JSONObject(loc.toString())));
+            else return Util.jsonToLocation((new JSONObject(loc.toString())));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -178,7 +179,7 @@ public class ArenaManager {
             FileReader fileReader = new FileReader(arenaData);
             JSONTokener jsonTokener = new JSONTokener(fileReader);
             JSONObject file = new JSONObject(jsonTokener);
-            file.put("lobbySpawn", locationToJson(lobbySpawn));
+            file.put("lobbySpawn", Util.locationToJson(lobbySpawn));
 
             FileWriter fileWriter = new FileWriter(arenaData);
             fileWriter.write(file.toString());
@@ -196,11 +197,12 @@ public class ArenaManager {
 
         JSONObject arenaJson = new JSONObject();
         arenaJson.put("name", arena.getName());
-        arenaJson.put("spawn", locationToJson(arena.getSpawn()));
-        arenaJson.put("gameSpawn", locationToJson(arena.getGameSpawn()));
+        arenaJson.put("spawn", Util.locationToJson(arena.getSpawn()));
+        arenaJson.put("gameSpawn", Util.locationToJson(arena.getGameSpawn()));
 
         return arenaJson;
     }
+
 
     private Arena jsonToArena(JSONObject jsonObject) {
         if (jsonObject == null) return null;
@@ -222,8 +224,8 @@ public class ArenaManager {
             }
 
             String name = jsonObject.getString("name");
-            Location spawn = jsonToLocation(jsonObject.getJSONObject("spawn"));
-            Location gameSpawn = jsonToLocation(jsonObject.getJSONObject("gameSpawn"));
+            Location spawn = Util.jsonToLocation(jsonObject.getJSONObject("spawn"));
+            Location gameSpawn = Util.jsonToLocation(jsonObject.getJSONObject("gameSpawn"));
             if(getLobbySpawn() == null) return null;
 
             return new Arena(main, id, name, spawn, getLobbySpawn(), gameSpawn, getCountdownSeconds(), getRequiredPlayers(), getMaxPlayers());
@@ -231,32 +233,5 @@ public class ArenaManager {
             e.printStackTrace();
             return null;
         }
-    }
-
-    private JSONObject locationToJson(Location location) {
-        if(location == null) return null;
-
-        JSONObject locationJson = new JSONObject();
-        locationJson.put("world", location.getWorld().getName());
-        locationJson.put("x", location.getX());
-        locationJson.put("y", location.getY());
-        locationJson.put("z", location.getZ());
-        locationJson.put("yaw", location.getYaw());
-        locationJson.put("pitch", location.getPitch());
-
-        return locationJson;
-    }
-
-    private Location jsonToLocation(JSONObject jsonObject) {
-        if(jsonObject == null) return null;
-
-        World world = Bukkit.getWorld(jsonObject.getString("world"));
-        double x = jsonObject.getDouble("x");
-        double y = jsonObject.getDouble("y");
-        double z = jsonObject.getDouble("z");
-        float yaw = jsonObject.getFloat("yaw");
-        float pitch = jsonObject.getFloat("pitch");
-
-        return new Location(world, x, y, z, yaw, pitch);
     }
 }

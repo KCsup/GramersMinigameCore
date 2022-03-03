@@ -13,18 +13,6 @@ public class ArenaSign {
     private Sign sign;
     private String[] lines;
 
-    public ArenaSign(Location location, Arena arena) {
-        this.location = location;
-        this.arena = arena;
-        lines = new String[4];
-
-        if(this.location.getBlock().getType() == Material.WALL_SIGN ||
-            this.location.getBlock().getType() == Material.SIGN_POST) {
-            sign = (Sign) this.location.getBlock();
-            reloadSign();
-        }
-    }
-
     public ArenaSign(Location location, Arena arena, String[] lines) {
         this.location = location;
         this.arena = arena;
