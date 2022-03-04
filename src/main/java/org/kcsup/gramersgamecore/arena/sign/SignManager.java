@@ -9,7 +9,6 @@ import org.kcsup.gramersgamecore.arena.Arena;
 import org.kcsup.gramersgamecore.util.Util;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class SignManager {
         if(location == null || signs == null) return null;
 
         for(ArenaSign sign : getSigns()) {
-            if(sign.getLocation() == location) return sign;
+            if(Util.locationEquals(location, sign.getLocation())) return sign;
         }
 
         return null;

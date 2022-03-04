@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.kcsup.gramersgamecore.Main;
+import org.kcsup.gramersgamecore.arena.sign.ArenaSign;
 import org.kcsup.gramersgamecore.game.Countdown;
 import org.kcsup.gramersgamecore.game.Game;
 import org.kcsup.gramersgamecore.game.GameState;
@@ -31,8 +32,6 @@ public class Arena {
     private int requiredPlayers;
     private int maxPlayers;
 
-    private boolean canJoin;
-
     public Arena(Main main, int id, String name, Location spawn, Location lobbySpawn, Location gameSpawn, int countdownSeconds, int requiredPlayers, int maxPlayers) {
         this.main = main;
         this.id = id;
@@ -47,7 +46,6 @@ public class Arena {
         game = new Game(this);
         this.requiredPlayers = requiredPlayers;
         this.maxPlayers = maxPlayers;
-        canJoin = true;
 
         // TODO: ADD SIGN UPDATES
     }
@@ -65,15 +63,14 @@ public class Arena {
         countdown = new Countdown(this);
         game = new Game(this);
 
-        // TODO: Add World Resetting
-//        Bukkit.unloadWorld(spawn.getWorld().getName(),false);
+        // TODO: Add World Resetting (Note, this should be done while the game state is "resetting")
     }
 
     public void resetCountdown() {
-        teleportPlayers(spawn);
+//        teleportPlayers(spawn);
         gameState = GameState.RECRUITING;
-        countdown = new Countdown(this);
-        game = new Game(this);
+        countdown.cancel();
+        sendMessage(ChatColor.RED + "Waiting for more players.");
     }
 
     public void teleportPlayers(Location location) {
@@ -119,7 +116,7 @@ public class Arena {
         player.teleport(spawn);
         sendMessage(ChatColor.GREEN + player.getName() + " has joined!");
 
-        if(players.size() >= requiredPlayers) {
+        if(hasRequiredPlayers()) {
             countdown.begin();
         }
     }
@@ -131,7 +128,7 @@ public class Arena {
         player.teleport(lobbySpawn);
 
         sendMessage(ChatColor.GREEN + player.getName() + " has quit!");
-        if(players.size() < requiredPlayers && gameState.equals(GameState.COUNTDOWN)) resetCountdown();
+        if(!hasRequiredPlayers() && gameState.equals(GameState.COUNTDOWN)) resetCountdown();
         else if(players.size() <= 1 && gameState.equals(GameState.LIVE)) reset();
     }
 
@@ -175,6 +172,8 @@ public class Arena {
         return requiredPlayers;
     }
 
+    public boolean hasRequiredPlayers() { return players.size() >= requiredPlayers; }
+
     public int getMaxPlayers() {
         return maxPlayers;
     }
@@ -183,15 +182,9 @@ public class Arena {
         return players.size() >= maxPlayers;
     }
 
-    public boolean canJoin() {
-        return canJoin;
-    }
-
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
-    public void setCanJoin(boolean canJoin) {
-        this.canJoin = canJoin;
-    }
+    public ArenaSign getArenaSign() { return main.getSignManager().getSign(this); }
 }

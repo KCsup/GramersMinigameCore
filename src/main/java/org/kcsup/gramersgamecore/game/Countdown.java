@@ -10,10 +10,10 @@ public class Countdown extends BukkitRunnable {
 
     public Countdown(Arena arena) {
         this.arena = arena;
-        this.seconds = arena.getCountdownSeconds();
     }
 
     public void begin() {
+        seconds = arena.getCountdownSeconds();
         arena.setGameState(GameState.COUNTDOWN);
         this.runTaskTimer(arena.getMain(), 0, 20);
 
