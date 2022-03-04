@@ -4,13 +4,11 @@ import org.bukkit.Location;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.kcsup.gramersgamecore.Main;
 import org.kcsup.gramersgamecore.arena.Arena;
 import org.kcsup.gramersgamecore.util.Util;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,9 +40,7 @@ public class SignManager {
                 JSONObject file = new JSONObject();
                 file.put("signs", new JSONArray());
 
-                FileWriter fileWriter = new FileWriter(signData);
-                fileWriter.write(file.toString());
-                fileWriter.flush();
+                Util.putJsonFile(signData, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -84,11 +80,38 @@ public class SignManager {
         return null;
     }
 
+    public void storeSign(ArenaSign sign) {
+        if(sign == null) return;
+
+        try {
+            JSONObject file = Util.getJsonFile(signData);
+            JSONArray signs = file.getJSONArray("signs");
+            JSONObject jsonSign = signToJson(sign);
+            signs.put(jsonSign);
+
+            Util.putJsonFile(signData, file);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isSign(Location location) {
+        List<ArenaSign> signs = getSigns();
+
+        if(location == null || signs == null) return false;
+
+        for(ArenaSign s : signs) {
+            if(Util.locationEquals(s.getLocation(), location)) return true;
+        }
+
+        return false;
+    }
+
     /* Sign Json Structure
     {
         "location": Object **The location of the sign
         "arenaId": int **The id of the arena for this sign
-        "lines": String[] **
+        "lines": String[] **The lines of the
     }
      */
     private ArenaSign jsonToSign(JSONObject jsonObject) {

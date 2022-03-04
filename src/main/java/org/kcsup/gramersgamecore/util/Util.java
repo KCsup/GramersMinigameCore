@@ -7,9 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class Util {
 
@@ -60,7 +58,7 @@ public class Util {
         }
     }
 
-    public static JSONObject getJsonFile(File jsonFile) throws FileNotFoundException, JSONException {
+    public static JSONObject getJsonFile(File jsonFile) throws IOException, JSONException {
         if(jsonFile == null) return null;
 
         FileReader fileReader = new FileReader(jsonFile);
@@ -68,4 +66,15 @@ public class Util {
         return new JSONObject(tokener);
     }
 
+    public static void putJsonFile(File jsonFile, JSONObject fileData) throws IOException {
+        if(jsonFile == null || fileData == null) return;
+
+        FileWriter fileWriter = new FileWriter(jsonFile);
+        fileWriter.write(fileData.toString());
+        fileWriter.flush();
+    }
+
+    public static boolean locationEquals(Location l1, Location l2) {
+        return l1.getX() == l2.getX() && l1.getY() == l2.getY() && l1.getZ() == l2.getZ();
+    }
 }
