@@ -1,7 +1,7 @@
 name: GramersGameCore
 version: '${project.version}'
 main: org.kcsup.gramersgamecore.Main
-api-version: 1.17
+api-version: 1.8.8
 description: The core plugin for Gramers mingame plugins.
 commands:
   arena:
