@@ -23,6 +23,7 @@ public class SignManager {
         this.main = main;
 
         filesCheck();
+        reloadAllSigns();
     }
 
     /* Sign Data File Structure
@@ -57,7 +58,7 @@ public class SignManager {
             JSONArray jSigns = file.getJSONArray("signs");
 
             for(Object s : jSigns) {
-                ArenaSign sign = jsonToSign(new JSONObject(s));
+                ArenaSign sign = jsonToSign((JSONObject) s);
                 if(sign != null) signs.add(sign);
             }
 
@@ -75,6 +76,17 @@ public class SignManager {
 
         for(ArenaSign sign : getSigns()) {
             if(sign.getArena().getId() == arena.getId()) return sign;
+        }
+
+        return null;
+    }
+
+    public ArenaSign getSign(Location location) {
+        List<ArenaSign> signs = getSigns();
+        if(location == null || signs == null) return null;
+
+        for(ArenaSign sign : getSigns()) {
+            if(sign.getLocation() == location) return sign;
         }
 
         return null;
@@ -105,6 +117,48 @@ public class SignManager {
         }
 
         return false;
+    }
+
+    public void reloadAllSigns() {
+        List<ArenaSign> signs = getSigns();
+
+        if(signs == null) return;
+
+        for(ArenaSign s : signs) {
+            s.reloadSign();
+        }
+    }
+
+    public ArenaSign updateSign(ArenaSign sign, String[] updatedLines) {
+        if(sign == null || updatedLines == null) return null;
+
+        return updateSign(sign.getLocation(), updatedLines);
+    }
+
+    public ArenaSign updateSign(Location location, String[] updatedLines) {
+        if(location == null || updatedLines == null) return null;
+
+        try {
+            JSONObject file = Util.getJsonFile(signData);
+            JSONArray signs = file.getJSONArray("signs");
+
+            for (Object o : signs) {
+                JSONObject s = (JSONObject) o;
+                Location sLocation = Util.jsonToLocation(s.getJSONObject("location"));
+                if(Util.locationEquals(location, sLocation)) {
+                    s.put("lines", updatedLines);
+
+                    Util.putJsonFile(signData, file);
+
+                    return jsonToSign(s);
+                }
+            }
+
+            return null;
+        } catch(IOException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /* Sign Json Structure

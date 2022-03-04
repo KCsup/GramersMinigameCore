@@ -65,7 +65,7 @@ public class ArenaManager {
             JSONObject file = new JSONObject(jsonTokener);
             JSONArray jArenas = file.getJSONArray("arenas");
             for(Object o : jArenas) {
-                JSONObject arenaJson = new JSONObject(o.toString());
+                JSONObject arenaJson = (JSONObject) o;
                 Arena arena = jsonToArena(arenaJson);
                 if(arena != null) arenas.add(arena);
             }
@@ -212,7 +212,7 @@ public class ArenaManager {
             List<Object> jArenas = file.getJSONArray("arenas").toList();
             int id = 0;
             for(Object o : jArenas) {
-                JSONObject object = new JSONObject(o);
+                JSONObject object = (JSONObject) o;
                 if(Objects.equals(object.toString(), jsonObject.toString())) {
                     id = jArenas.indexOf(o);
                     break;
