@@ -41,7 +41,7 @@ public class Countdown extends BukkitRunnable {
             arena.setGameState(GameState.RECRUITING);
             arena.sendMessage(ChatColor.RED + "Waiting for more players.");
 
-            // TODO: more sign shit I hate you
+            // TODO: more sign stuffs :)
             return;
         }
 
