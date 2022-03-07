@@ -11,12 +11,10 @@ public class ArenaSign {
     private Location location;
     private Arena arena;
     private Sign sign;
-    private String[] lines;
 
-    public ArenaSign(Location location, Arena arena, String[] lines) {
+    public ArenaSign(Location location, Arena arena) {
         this.location = location;
         this.arena = arena;
-        this.lines = lines;
 
         if(this.location.getBlock().getType() == Material.WALL_SIGN ||
             this.location.getBlock().getType() == Material.SIGN_POST) {
@@ -26,7 +24,13 @@ public class ArenaSign {
     }
 
     public void reloadSign() {
-        if(sign == null) return;
+        if(arena == null) return;
+
+        reloadSign(arena.getSignLines());
+    }
+
+    public void reloadSign(String[] lines) {
+        if(sign == null || lines == null) return;
 
         for(int i = 0; i < lines.length; i++) {
             String line = lines[i];
@@ -42,17 +46,5 @@ public class ArenaSign {
 
     public Arena getArena() {
         return arena;
-    }
-
-    public String[] getLines() {
-        return lines;
-    }
-
-    public String getLineAt(int index) {
-        try {
-            return lines[index];
-        } catch(IndexOutOfBoundsException e) {
-            return null;
-        }
     }
 }

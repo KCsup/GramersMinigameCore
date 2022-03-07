@@ -128,43 +128,10 @@ public class SignManager {
         }
     }
 
-    public ArenaSign updateSign(ArenaSign sign, String[] updatedLines) {
-        if(sign == null || updatedLines == null) return null;
-
-        return updateSign(sign.getLocation(), updatedLines);
-    }
-
-    public ArenaSign updateSign(Location location, String[] updatedLines) {
-        if(location == null || updatedLines == null) return null;
-
-        try {
-            JSONObject file = Util.getJsonFile(signData);
-            JSONArray signs = file.getJSONArray("signs");
-
-            for (Object o : signs) {
-                JSONObject s = (JSONObject) o;
-                Location sLocation = Util.jsonToLocation(s.getJSONObject("location"));
-                if(Util.locationEquals(location, sLocation)) {
-                    s.put("lines", updatedLines);
-
-                    Util.putJsonFile(signData, file);
-
-                    return jsonToSign(s);
-                }
-            }
-
-            return null;
-        } catch(IOException | JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     /* Sign Json Structure
     {
         "location": Object **The location of the sign
         "arenaId": int **The id of the arena for this sign
-        "lines": String[] **The lines of the
     }
      */
     private ArenaSign jsonToSign(JSONObject jsonObject) {
@@ -176,7 +143,7 @@ public class SignManager {
             Arena arena = main.getArenaManager().getArena(arenaId);
             if(arena == null || location == null) return null;
 
-            return new ArenaSign(location, arena, (String[]) jsonObject.get("lines"));
+            return new ArenaSign(location, arena);
         } catch(JSONException e) {
             e.printStackTrace();
             return null;
@@ -194,7 +161,6 @@ public class SignManager {
             JSONObject jsonSign = new JSONObject();
             jsonSign.put("location", Util.locationToJson(location));
             jsonSign.put("arenaId", arena.getId());
-            jsonSign.put("lines", sign.getLines());
             
             return jsonSign;
         } catch(JSONException e) {

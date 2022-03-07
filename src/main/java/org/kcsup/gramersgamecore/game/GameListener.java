@@ -40,11 +40,8 @@ public class GameListener implements Listener {
                     case COUNTDOWN:
                         player.sendMessage(ChatColor.RED + "The game you're trying to join is currently full. Try again later.");
                         break;
-                    case LIVE:
-                    case RESTARTING:
-                        player.sendMessage(ChatColor.RED + "The game you're trying to join is currently live. Try again later.");
-                        break;
                     default:
+                        player.sendMessage(ChatColor.RED + "The game you're trying to join is currently live. Try again later.");
                         break;
                 }
             }

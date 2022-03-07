@@ -15,6 +15,7 @@ public class Game {
 
     public void start() {
         arena.teleportPlayers(gameSpawn);
+        stop();
     }
 
     public void stop() {

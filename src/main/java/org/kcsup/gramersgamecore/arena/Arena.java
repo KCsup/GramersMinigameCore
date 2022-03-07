@@ -132,6 +132,41 @@ public class Arena {
         else if(players.size() <= 1 && gameState.equals(GameState.LIVE)) reset();
     }
 
+    public String[] getSignLines() {
+        if(getArenaSign() == null) return null;
+
+        String[] lines = new String[4];
+        lines[0] = "";
+        lines[3] = "";
+
+        lines[1] = String.format("%s/%s", players.size(), maxPlayers);
+
+        ChatColor stateColor;
+        switch(gameState) {
+            case RECRUITING:
+                stateColor = ChatColor.GREEN;
+                break;
+            case COUNTDOWN:
+                stateColor = ChatColor.AQUA;
+                break;
+            case LIVE:
+                stateColor = ChatColor.RED;
+                break;
+            case RESTARTING:
+                stateColor = ChatColor.YELLOW;
+                break;
+            default:
+                stateColor = null;
+                break;
+        }
+
+        if(stateColor == null) return null;
+
+        lines[2] = stateColor + gameState.toString();
+
+        return lines;
+    }
+
     public Main getMain() { return main; }
 
     public int getId() { return id; }
