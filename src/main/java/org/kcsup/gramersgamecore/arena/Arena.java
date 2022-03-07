@@ -12,6 +12,7 @@ import org.kcsup.gramersgamecore.game.Game;
 import org.kcsup.gramersgamecore.game.GameState;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -136,8 +137,7 @@ public class Arena {
         if(getArenaSign() == null) return null;
 
         String[] lines = new String[4];
-        lines[0] = "";
-        lines[3] = "";
+        Arrays.fill(lines, "");
 
         lines[1] = String.format("%s/%s", players.size(), maxPlayers);
 

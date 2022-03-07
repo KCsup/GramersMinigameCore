@@ -15,7 +15,7 @@ public class Countdown extends BukkitRunnable {
     public void begin() {
         seconds = arena.getCountdownSeconds();
         arena.setGameState(GameState.COUNTDOWN);
-        this.runTaskTimer(arena.getMain(), 0, 20);
+        runTaskTimer(arena.getMain(), 0, 20);
 
         // TODO: sign stuff
     }
