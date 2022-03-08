@@ -1,2 +1,13 @@
 # Name of the Minigame
 game-name: ""
+
+countdown: 30
+required-players: 2
+max-players: 10
+lobby-spawn:
+  world: "world"
+  x: 0
+  y: 0
+  z: 0
+  yaw: 0
+  pitch: 0

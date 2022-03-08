@@ -23,30 +23,22 @@ public class Arena {
     private String name;
     private List<UUID> players;
     private Location spawn;
-    private Location lobbySpawn;
     private Location gameSpawn;
 
     private GameState gameState;
     private Countdown countdown;
-    private int countdownSeconds;
     private Game game;
-    private int requiredPlayers;
-    private int maxPlayers;
 
-    public Arena(Main main, int id, String name, Location spawn, Location lobbySpawn, Location gameSpawn, int countdownSeconds, int requiredPlayers, int maxPlayers) {
+    public Arena(Main main, int id, String name, Location spawn, Location gameSpawn) {
         this.main = main;
         this.id = id;
         this.name = name;
         players = new ArrayList<>();
         this.spawn = spawn;
-        this.lobbySpawn = lobbySpawn;
         this.gameSpawn = gameSpawn;
         gameState = GameState.RECRUITING;
         countdown = new Countdown(this);
-        this.countdownSeconds = countdownSeconds;
         game = new Game(this);
-        this.requiredPlayers = requiredPlayers;
-        this.maxPlayers = maxPlayers;
 
         // TODO: ADD SIGN UPDATES
     }
@@ -57,7 +49,7 @@ public class Arena {
     }
 
     public void reset() {
-        teleportPlayers(lobbySpawn);
+        teleportPlayers(main.getArenaManager().getLobbySpawn());
 
         gameState = GameState.RECRUITING;
         players.clear();
@@ -126,7 +118,7 @@ public class Arena {
         if(!players.contains(player.getUniqueId())) return;
 
         players.remove(player.getUniqueId());
-        player.teleport(lobbySpawn);
+        player.teleport(main.getArenaManager().getLobbySpawn());
 
         sendMessage(ChatColor.GREEN + player.getName() + " has quit!");
         if(!hasRequiredPlayers() && gameState.equals(GameState.COUNTDOWN)) resetCountdown();
@@ -139,7 +131,7 @@ public class Arena {
         String[] lines = new String[4];
         Arrays.fill(lines, "");
 
-        lines[1] = String.format("%s/%s", players.size(), maxPlayers);
+        lines[1] = String.format("%s/%s", players.size(), main.getArenaManager().getMaxPlayers());
 
         ChatColor stateColor;
         switch(gameState) {
@@ -181,10 +173,6 @@ public class Arena {
         return spawn;
     }
 
-    public Location getLobbySpawn() {
-        return lobbySpawn;
-    }
-
     public Location getGameSpawn() {
         return gameSpawn;
     }
@@ -197,24 +185,14 @@ public class Arena {
         return countdown;
     }
 
-    public int getCountdownSeconds() { return countdownSeconds; }
-
     public Game getGame() {
         return game;
     }
 
-    public int getRequiredPlayers() {
-        return requiredPlayers;
-    }
-
-    public boolean hasRequiredPlayers() { return players.size() >= requiredPlayers; }
-
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
+    public boolean hasRequiredPlayers() { return players.size() >= main.getArenaManager().getRequiredPlayers(); }
 
     public boolean isFull() {
-        return players.size() >= maxPlayers;
+        return players.size() >= main.getArenaManager().getMaxPlayers();
     }
 
     public void setGameState(GameState gameState) {

@@ -13,7 +13,7 @@ public class Countdown extends BukkitRunnable {
     }
 
     public void begin() {
-        seconds = arena.getCountdownSeconds();
+        seconds = arena.getMain().getArenaManager().getCountdownSeconds();
         arena.setGameState(GameState.COUNTDOWN);
         runTaskTimer(arena.getMain(), 0, 20);
 
@@ -36,7 +36,7 @@ public class Countdown extends BukkitRunnable {
             }
         }
 
-        if(arena.getPlayers().size() < arena.getRequiredPlayers()) {
+        if(!arena.hasRequiredPlayers()) {
             cancel();
             arena.setGameState(GameState.RECRUITING);
             arena.sendMessage(ChatColor.RED + "Waiting for more players.");

@@ -1,5 +1,6 @@
 package org.kcsup.gramersgamecore.arena;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
@@ -39,11 +40,6 @@ public class ArenaManager {
 
                 JSONObject file = new JSONObject();
                 file.put("arenas", new JSONArray());
-
-                file.put("countdownSeconds", 30);
-                file.put("requiredPlayers", 2);
-                file.put("maxPlayers", 10);
-                file.put("lobbySpawn", JSONObject.NULL);
 
                 FileWriter fileWriter = new FileWriter(arenaData);
                 fileWriter.write(file.toString());
@@ -120,73 +116,35 @@ public class ArenaManager {
     }
 
     public int getCountdownSeconds() {
-        try {
-            FileReader fileReader = new FileReader(arenaData);
-            JSONTokener jsonTokener = new JSONTokener(fileReader);
-            JSONObject file = new JSONObject(jsonTokener);
-            return file.getInt("countdownSeconds");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
+        return main.getConfig().getInt("countdown");
     }
 
     public int getRequiredPlayers() {
-        try {
-            FileReader fileReader = new FileReader(arenaData);
-            JSONTokener jsonTokener = new JSONTokener(fileReader);
-            JSONObject file = new JSONObject(jsonTokener);
-            return file.getInt("requiredPlayers");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
+        return main.getConfig().getInt("required-players");
     }
 
     public int getMaxPlayers() {
-        try {
-            FileReader fileReader = new FileReader(arenaData);
-            JSONTokener jsonTokener = new JSONTokener(fileReader);
-            JSONObject file = new JSONObject(jsonTokener);
-            return file.getInt("maxPlayers");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
+        return main.getConfig().getInt("max-players");
     }
 
     public Location getLobbySpawn() {
-        try {
-            FileReader fileReader = new FileReader(arenaData);
-            JSONTokener jsonTokener = new JSONTokener(fileReader);
-            JSONObject file = new JSONObject(jsonTokener);
-            Object loc = file.get("lobbySpawn");
-
-            if(loc == JSONObject.NULL) return null;
-            else return Util.jsonToLocation((new JSONObject(loc.toString())));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return new Location(Bukkit.getWorld(main.getConfig().getString("lobby-spawn.world")),
+                main.getConfig().getDouble("lobby-spawn.x"),
+                main.getConfig().getDouble("lobby-spawn.y"),
+                main.getConfig().getDouble("lobby-spawn.z"),
+                main.getConfig().getInt("lobby-spawn.yaw"),
+                main.getConfig().getInt("lobby-spawn.pitch"));
     }
 
     public void setLobbySpawn(Location lobbySpawn) {
         if(lobbySpawn == null || anyArenasLive()) return;
 
-        try {
-            FileReader fileReader = new FileReader(arenaData);
-            JSONTokener jsonTokener = new JSONTokener(fileReader);
-            JSONObject file = new JSONObject(jsonTokener);
-            file.put("lobbySpawn", Util.locationToJson(lobbySpawn));
-
-            FileWriter fileWriter = new FileWriter(arenaData);
-            fileWriter.write(file.toString());
-            fileWriter.flush();
-
-            initiateArenas();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        main.getConfig().set("lobby-spawn.world", lobbySpawn.getWorld().getName());
+        main.getConfig().set("lobby-spawn.x", lobbySpawn.getX());
+        main.getConfig().set("lobby-spawn.y", lobbySpawn.getY());
+        main.getConfig().set("lobby-spawn.z", lobbySpawn.getZ());
+        main.getConfig().set("lobby-spawn.yaw", lobbySpawn.getYaw());
+        main.getConfig().set("lobby-spawn.pitch", lobbySpawn.getPitch());
     }
 
     // You should probably never use this, manually creating arenas is probably a better idea
@@ -226,7 +184,7 @@ public class ArenaManager {
             Location gameSpawn = Util.jsonToLocation(jsonObject.getJSONObject("gameSpawn"));
             if(getLobbySpawn() == null) return null;
 
-            return new Arena(main, id, name, spawn, getLobbySpawn(), gameSpawn, getCountdownSeconds(), getRequiredPlayers(), getMaxPlayers());
+            return new Arena(main, id, name, spawn, gameSpawn);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
