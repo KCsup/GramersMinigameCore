@@ -16,8 +16,6 @@ public class Countdown extends BukkitRunnable {
         seconds = arena.getMain().getArenaManager().getCountdownSeconds();
         arena.setGameState(GameState.COUNTDOWN);
         runTaskTimer(arena.getMain(), 0, 20);
-
-        // TODO: sign stuff
     }
 
     @Override
@@ -34,15 +32,6 @@ public class Countdown extends BukkitRunnable {
             } else {
                 arena.sendMessage(ChatColor.GREEN + "Game will start in " + seconds + " seconds.");
             }
-        }
-
-        if(!arena.hasRequiredPlayers()) {
-            cancel();
-            arena.setGameState(GameState.RECRUITING);
-            arena.sendMessage(ChatColor.RED + "Waiting for more players.");
-
-            // TODO: more sign stuffs :)
-            return;
         }
 
         seconds--;

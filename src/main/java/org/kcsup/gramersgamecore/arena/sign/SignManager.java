@@ -22,7 +22,7 @@ public class SignManager {
         this.main = main;
 
         filesCheck();
-        reloadAllSigns();
+        if(signData.exists()) reloadAllSigns();
     }
 
     /* Sign Data File Structure

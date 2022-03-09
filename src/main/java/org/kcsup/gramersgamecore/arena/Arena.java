@@ -22,8 +22,10 @@ public class Arena {
     private int id;
     private String name;
     private List<UUID> players;
-    private Location spawn;
-    private Location gameSpawn;
+
+    // Notes of clarification
+    private Location spawn; // Waiting spawn
+    private Location gameSpawn; // Spawn for when the game starts
 
     private GameState gameState;
     private Countdown countdown;
@@ -36,11 +38,10 @@ public class Arena {
         players = new ArrayList<>();
         this.spawn = spawn;
         this.gameSpawn = gameSpawn;
-        gameState = GameState.RECRUITING;
         countdown = new Countdown(this);
         game = new Game(this);
 
-        // TODO: ADD SIGN UPDATES
+        setGameState(GameState.RECRUITING);
     }
 
     public void start() {
@@ -51,19 +52,19 @@ public class Arena {
     public void reset() {
         teleportPlayers(main.getArenaManager().getLobbySpawn());
 
-        gameState = GameState.RECRUITING;
         players.clear();
         countdown = new Countdown(this);
         game = new Game(this);
+        setGameState(GameState.RECRUITING);
 
         // TODO: Add World Resetting (Note, this should be done while the game state is "resetting")
     }
 
     public void resetCountdown() {
 //        teleportPlayers(spawn);
-        gameState = GameState.RECRUITING;
         countdown.cancel();
         sendMessage(ChatColor.RED + "Waiting for more players.");
+        setGameState(GameState.RECRUITING);
     }
 
     public void teleportPlayers(Location location) {
@@ -109,9 +110,8 @@ public class Arena {
         player.teleport(spawn);
         sendMessage(ChatColor.GREEN + player.getName() + " has joined!");
 
-        if(hasRequiredPlayers()) {
-            countdown.begin();
-        }
+        if(hasRequiredPlayers()) countdown.begin();
+        else reloadSign();
     }
 
     public void removePlayer(Player player) {
@@ -123,6 +123,7 @@ public class Arena {
         sendMessage(ChatColor.GREEN + player.getName() + " has quit!");
         if(!hasRequiredPlayers() && gameState.equals(GameState.COUNTDOWN)) resetCountdown();
         else if(players.size() <= 1 && gameState.equals(GameState.LIVE)) reset();
+        else reloadSign();
     }
 
     public String[] getSignLines() {
@@ -197,7 +198,17 @@ public class Arena {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+
+        reloadSign();
     }
 
     public ArenaSign getArenaSign() { return main.getSignManager().getSign(this); }
+
+    public void reloadSign() {
+        ArenaSign sign = getArenaSign();
+
+        if(sign == null) return;
+
+        sign.reloadSign();
+    }
 }

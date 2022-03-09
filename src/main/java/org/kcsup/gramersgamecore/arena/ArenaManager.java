@@ -41,9 +41,7 @@ public class ArenaManager {
                 JSONObject file = new JSONObject();
                 file.put("arenas", new JSONArray());
 
-                FileWriter fileWriter = new FileWriter(arenaData);
-                fileWriter.write(file.toString());
-                fileWriter.flush();
+                Util.putJsonFile(arenaData, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -56,16 +54,13 @@ public class ArenaManager {
         arenas.clear();
 
         try {
-            FileReader fileReader = new FileReader(arenaData);
-            JSONTokener jsonTokener = new JSONTokener(fileReader);
-            JSONObject file = new JSONObject(jsonTokener);
+            JSONObject file = Util.getJsonFile(arenaData);
             JSONArray jArenas = file.getJSONArray("arenas");
             for(Object o : jArenas) {
                 JSONObject arenaJson = (JSONObject) o;
                 Arena arena = jsonToArena(arenaJson);
                 if(arena != null) arenas.add(arena);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,9 +159,7 @@ public class ArenaManager {
         if (jsonObject == null) return null;
 
         try {
-            FileReader fileReader = new FileReader(arenaData);
-            JSONTokener jsonTokener = new JSONTokener(fileReader);
-            JSONObject file = new JSONObject(jsonTokener);
+            JSONObject file = Util.getJsonFile(arenaData);
             List<Object> jArenas = file.getJSONArray("arenas").toList();
             int id = 0;
             for(Object o : jArenas) {
