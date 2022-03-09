@@ -5,14 +5,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.kcsup.gramersgamecore.Main;
 import org.kcsup.gramersgamecore.game.GameState;
 import org.kcsup.gramersgamecore.util.Util;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

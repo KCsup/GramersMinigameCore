@@ -16,10 +16,10 @@ public final class Main extends JavaPlugin {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
-        Bukkit.getPluginManager().registerEvents(new GameListener(this), this);
-
         arenaManager = new ArenaManager(this);
         signManager = new SignManager(this);
+
+        Bukkit.getPluginManager().registerEvents(new GameListener(this), this);
 
         getCommand("arena").setExecutor(new ArenaCommand(this));
     }
