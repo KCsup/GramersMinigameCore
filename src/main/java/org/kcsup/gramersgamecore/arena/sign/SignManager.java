@@ -1,6 +1,12 @@
 package org.kcsup.gramersgamecore.arena.sign;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +17,7 @@ import org.kcsup.gramersgamecore.util.Util;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SignManager {
@@ -18,8 +25,11 @@ public class SignManager {
     private Main main;
     private File signData;
 
+    public HashMap<Player, Arena> settingSign;
+
     public SignManager(Main main) {
         this.main = main;
+        settingSign = new HashMap<>();
 
         filesCheck();
         if(signData.exists()) reloadAllSigns();
@@ -167,6 +177,16 @@ public class SignManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public ItemStack getSignWand() {
+        ItemStack wand = new ItemStack(Material.BLAZE_ROD);
+        wand.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+        ItemMeta meta = wand.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        wand.setItemMeta(meta);
+
+        return wand;
     }
 
 }

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.kcsup.gramersgamecore.Main;
 import org.kcsup.gramersgamecore.game.GameState;
@@ -139,7 +140,21 @@ public class ArenaManager {
         main.getConfig().set("lobby-spawn.pitch", lobbySpawn.getPitch());
     }
 
-    // You should probably never use this, manually creating arenas is probably a better idea
+    public void storeArena(Arena arena) {
+        if(arena == null) return;
+
+        try {
+            JSONObject file = Util.getJsonFile(arenaData);
+            JSONArray arenas = file.getJSONArray("arenas");
+            JSONObject jArena = arenaToJson(arena);
+            arenas.put(jArena);
+
+            Util.putJsonFile(arenaData, file);
+        } catch(IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private JSONObject arenaToJson(Arena arena) {
         if(arena == null) return null;
 

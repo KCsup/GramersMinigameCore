@@ -2,7 +2,6 @@ package org.kcsup.gramersgamecore.arena.sign;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.kcsup.gramersgamecore.arena.Arena;
 
@@ -16,8 +15,7 @@ public class ArenaSign {
         this.location = location;
         this.arena = arena;
 
-        if(this.location.getBlock().getType() == Material.WALL_SIGN ||
-            this.location.getBlock().getType() == Material.SIGN_POST) {
+        if(this.location.getBlock() instanceof Sign) {
             sign = (Sign) this.location.getBlock();
             reloadSign();
         }

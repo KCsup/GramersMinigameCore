@@ -2,6 +2,7 @@ package org.kcsup.gramersgamecore.game;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +24,17 @@ public class GameListener implements Listener {
 
         if(e.hasBlock()) {
             Block block = e.getClickedBlock();
+
+            if(player.isOp()) {
+                if(block instanceof Sign && player.getItemInHand().equals(main.getSignManager().getSignWand())
+                        && !main.getSignManager().isSign(block.getLocation())
+                        && main.getSignManager().settingSign.containsKey(player)) {
+                    main.getSignManager().storeSign(new ArenaSign(block.getLocation(),
+                            main.getSignManager().settingSign.get(player)));
+                    main.getSignManager().settingSign.remove(player);
+                    player.getInventory().remove(main.getSignManager().getSignWand());
+                }
+            }
 
             if(main.getSignManager().isSign(block.getLocation())) {
                 e.setCancelled(true);

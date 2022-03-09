@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.kcsup.gramersgamecore.Main;
 import org.kcsup.gramersgamecore.arena.Arena;
 import org.kcsup.gramersgamecore.game.GameState;
@@ -51,35 +52,75 @@ public class ArenaCommand implements CommandExecutor {
                     }
                     else player.sendMessage(ChatColor.RED + "You aren't currently in any arena.");
                     break;
+                case "create":
+                    break;
                 default:
                     player.sendMessage(error);
                     break;
             }
         }
-        else if(args.length == 2 && args[0].equalsIgnoreCase("join")) {
+        else if(args.length == 2) {
             String id = args[1];
 
-            try {
-                Arena arena;
-                if (main.getArenaManager().getArena(id) != null)
-                    arena = main.getArenaManager().getArena(id);
-                else if (main.getArenaManager().getArena(Integer.parseInt(id)) != null)
-                    arena = main.getArenaManager().getArena(Integer.parseInt(id));
-                else {
-                    player.sendMessage(ChatColor.RED + "There is no arena with the Id: " + id + ".\n" + error);
-                    return false;
-                }
+            switch(args[0].toLowerCase()) {
+                case "join":
+                    try {
+                        Arena arena;
+                        if (main.getArenaManager().getArena(id) != null)
+                            arena = main.getArenaManager().getArena(id);
+                        else if (main.getArenaManager().getArena(Integer.parseInt(id)) != null)
+                            arena = main.getArenaManager().getArena(Integer.parseInt(id));
+                        else {
+                            player.sendMessage(ChatColor.RED + "There is no arena with the Id: " + id + ".\n" + error);
+                            return false;
+                        }
 
-                if (arena.getGameState() != GameState.RECRUITING || arena.isFull()) {
-                    player.sendMessage(ChatColor.RED + "You cannot join ths arena right now.\n" + error);
-                    return false;
-                }
+                        if (arena.getGameState() != GameState.RECRUITING || arena.isFull()) {
+                            player.sendMessage(ChatColor.RED + "You cannot join ths arena right now.\n" + error);
+                            return false;
+                        }
 
-                player.sendMessage(ChatColor.GREEN + "Joining Arena: " + arena.getName());
-                arena.addPlayer(player);
-            } catch (NumberFormatException e) {
-                player.sendMessage(ChatColor.RED + "There is no arena with the Id: " + id + ".\n" + error);
-                return false;
+                        player.sendMessage(ChatColor.GREEN + "Joining Arena: " + arena.getName());
+                        arena.addPlayer(player);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(ChatColor.RED + "There is no arena with the Id: " + id + ".\n" + error);
+                        return false;
+                    }
+
+                    break;
+                case "sign":
+                    if(!player.isOp()) {
+                        player.sendMessage(ChatColor.RED + "You must be an admin to use this command...");
+                        return false;
+                    }
+                    else if(main.getSignManager().settingSign.containsKey(player)) {
+                        player.sendMessage(ChatColor.RED + "You are already setting up an arena sign.");
+                        return false;
+                    }
+
+                    try {
+                        int arenaId = Integer.parseInt(id);
+
+                        if(main.getArenaManager().getArena(arenaId) == null) {
+                            player.sendMessage(ChatColor.RED + "There is no arena with the Id: " + id);
+                            return false;
+                        }
+
+                        Arena arena = main.getArenaManager().getArena(arenaId);
+
+                        ItemStack wand = main.getSignManager().getSignWand();
+
+                        if(!player.getInventory().contains(wand)) player.getInventory().addItem(wand);
+
+                        main.getSignManager().settingSign.put(player, arena);
+
+                        return false;
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(ChatColor.RED + "There is no arena with the Id: " + id);
+                        return false;
+                    }
+                default:
+                    break;
             }
         } else {
             player.sendMessage(error);
