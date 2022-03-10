@@ -2,7 +2,6 @@ package org.kcsup.gramersgamecore.game;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,7 +31,7 @@ public class GameListener implements Listener {
                         && main.getSignManager().settingSign.containsKey(player)) {
                     e.setCancelled(true);
 
-                    player.sendMessage("Storing Sign");
+                    player.sendMessage("Storing Sign for Arena: " + main.getSignManager().settingSign.get(player).getId());
                     main.getSignManager().storeSign(new ArenaSign(block.getLocation(),
                             main.getSignManager().settingSign.get(player)));
                     main.getSignManager().settingSign.remove(player);

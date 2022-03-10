@@ -12,7 +12,6 @@ import org.kcsup.gramersgamecore.game.Game;
 import org.kcsup.gramersgamecore.game.GameState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +53,8 @@ public class Arena {
     }
 
     public void reset() {
+        setGameState(GameState.RESTARTING);
+
         teleportPlayers(getLobbySpawn());
 
         players.clear();

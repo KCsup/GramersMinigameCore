@@ -1,6 +1,5 @@
 package org.kcsup.gramersgamecore.game;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.kcsup.gramersgamecore.arena.Arena;

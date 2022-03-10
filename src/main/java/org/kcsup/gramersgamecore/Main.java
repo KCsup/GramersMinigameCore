@@ -2,6 +2,7 @@ package org.kcsup.gramersgamecore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kcsup.gramersgamecore.arena.Arena;
 import org.kcsup.gramersgamecore.arena.ArenaManager;
 import org.kcsup.gramersgamecore.arena.sign.SignManager;
 import org.kcsup.gramersgamecore.commands.ArenaCommand;
@@ -34,5 +35,7 @@ public final class Main extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+        for(Arena arena : arenaManager.getArenas()) arena.reset();
+    }
 }
