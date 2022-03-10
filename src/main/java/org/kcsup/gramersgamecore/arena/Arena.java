@@ -17,29 +17,40 @@ import java.util.List;
 import java.util.UUID;
 
 public class Arena {
-    private Main main;
-
     private int id;
     private String name;
     private List<UUID> players;
 
+    private int requiredPlayers;
+    private int maxPlayers;
+
     // Notes of clarification
     private Location spawn; // Waiting spawn
     private Location gameSpawn; // Spawn for when the game starts
+    private Location lobbySpawn;
 
     private GameState gameState;
     private Countdown countdown;
     private Game game;
 
-    public Arena(Main main, int id, String name, Location spawn, Location gameSpawn) {
-        this.main = main;
+    private int countdownSeconds;
+
+    private ArenaSign arenaSign;
+
+    public Arena(int id, String name, int requiredPlayers, int maxPlayers, Location lobbySpawn, Location spawn, Location gameSpawn, int countdownSeconds) {
         this.id = id;
         this.name = name;
+        this.requiredPlayers = requiredPlayers;
+        this.maxPlayers = maxPlayers;
         players = new ArrayList<>();
+        this.lobbySpawn = lobbySpawn;
         this.spawn = spawn;
         this.gameSpawn = gameSpawn;
         countdown = new Countdown(this);
+        this.countdownSeconds = countdownSeconds;
         game = new Game(this);
+
+        arenaSign = null;
 
         setGameState(GameState.RECRUITING);
     }
@@ -50,7 +61,7 @@ public class Arena {
     }
 
     public void reset() {
-        teleportPlayers(main.getArenaManager().getLobbySpawn());
+        teleportPlayers(lobbySpawn);
 
         players.clear();
         countdown = new Countdown(this);
@@ -118,7 +129,7 @@ public class Arena {
         if(!players.contains(player.getUniqueId())) return;
 
         players.remove(player.getUniqueId());
-        player.teleport(main.getArenaManager().getLobbySpawn());
+        player.teleport(lobbySpawn);
 
         sendMessage(ChatColor.GREEN + player.getName() + " has quit!");
         if(!hasRequiredPlayers() && gameState.equals(GameState.COUNTDOWN)) resetCountdown();
@@ -127,12 +138,13 @@ public class Arena {
     }
 
     public String[] getSignLines() {
-        if(getArenaSign() == null) return null;
+        if(arenaSign == null) return null;
 
         String[] lines = new String[4];
-        Arrays.fill(lines, "");
+        lines[0] = name;
+        lines[3] = "";
 
-        lines[1] = String.format("%s/%s", players.size(), main.getArenaManager().getMaxPlayers());
+        lines[1] = String.format("%s/%s", players.size(), maxPlayers);
 
         ChatColor stateColor;
         switch(gameState) {
@@ -160,8 +172,6 @@ public class Arena {
         return lines;
     }
 
-    public Main getMain() { return main; }
-
     public int getId() { return id; }
 
     public String getName() {
@@ -169,6 +179,18 @@ public class Arena {
     }
 
     public List<UUID> getPlayers() { return players; }
+
+    public int getRequiredPlayers() {
+        return requiredPlayers;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public Location getLobbySpawn() {
+        return lobbySpawn;
+    }
 
     public Location getSpawn() {
         return spawn;
@@ -186,14 +208,18 @@ public class Arena {
         return countdown;
     }
 
+    public int getCountdownSeconds() {
+        return countdownSeconds;
+    }
+
     public Game getGame() {
         return game;
     }
 
-    public boolean hasRequiredPlayers() { return players.size() >= main.getArenaManager().getRequiredPlayers(); }
+    public boolean hasRequiredPlayers() { return players.size() >= requiredPlayers; }
 
     public boolean isFull() {
-        return players.size() >= main.getArenaManager().getMaxPlayers();
+        return players.size() >= maxPlayers;
     }
 
     public void setGameState(GameState gameState) {
@@ -202,13 +228,15 @@ public class Arena {
         reloadSign();
     }
 
-    public ArenaSign getArenaSign() { return main.getSignManager().getSign(this); }
+    public ArenaSign getArenaSign() {
+        return arenaSign;
+    }
+
+    public void setArenaSign(ArenaSign arenaSign) {
+        this.arenaSign = arenaSign;
+    }
 
     public void reloadSign() {
-        ArenaSign sign = getArenaSign();
-
-        if(sign == null) return;
-
-        sign.reloadSign();
+        if(arenaSign != null) arenaSign.reloadSign();
     }
 }

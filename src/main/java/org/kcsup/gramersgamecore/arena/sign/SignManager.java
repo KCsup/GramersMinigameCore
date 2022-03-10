@@ -32,7 +32,6 @@ public class SignManager {
         settingSign = new HashMap<>();
 
         filesCheck();
-        if(signData.exists()) reloadAllSigns();
     }
 
     /* Sign Data File Structure
@@ -134,6 +133,7 @@ public class SignManager {
         if(signs == null) return;
 
         for(ArenaSign s : signs) {
+            if(s.getArena() != null) s.getArena().setArenaSign(s);
             s.reloadSign();
         }
     }

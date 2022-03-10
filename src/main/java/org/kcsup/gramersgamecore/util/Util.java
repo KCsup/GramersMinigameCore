@@ -2,6 +2,7 @@ package org.kcsup.gramersgamecore.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,5 +80,13 @@ public class Util {
 
     public static boolean locationEquals(Location l1, Location l2) {
         return l1.getX() == l2.getX() && l1.getY() == l2.getY() && l1.getZ() == l2.getZ();
+    }
+
+    public static boolean isSignMaterial(Material material) {
+        return material == Material.SIGN_POST || material == Material.WALL_SIGN;
+    }
+
+    public static void messageMe(String message) {
+        Bukkit.getPlayer("KCsup").sendMessage(message);
     }
 }

@@ -52,8 +52,6 @@ public class ArenaCommand implements CommandExecutor {
                     }
                     else player.sendMessage(ChatColor.RED + "You aren't currently in any arena.");
                     break;
-                case "create":
-                    break;
                 default:
                     player.sendMessage(error);
                     break;
@@ -119,6 +117,17 @@ public class ArenaCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.RED + "There is no arena with the Id: " + id);
                         return false;
                     }
+                case "create":
+                    if(!player.isOp()) {
+                        player.sendMessage(ChatColor.RED + "You must be an admin to use this command.");
+                        return false;
+                    }
+
+                    main.getArenaManager().storeArena(new Arena(main.getArenaManager().getArenas().size(), id,
+                            main.getArenaManager().getRequiredPlayers(), main.getArenaManager().getMaxPlayers(),
+                            main.getArenaManager().getLobbySpawn(), main.getArenaManager().getLobbySpawn(),
+                            main.getArenaManager().getLobbySpawn(), main.getArenaManager().getCountdownSeconds()));
+                    break;
                 default:
                     break;
             }

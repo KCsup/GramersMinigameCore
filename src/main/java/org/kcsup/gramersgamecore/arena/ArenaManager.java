@@ -25,8 +25,6 @@ public class ArenaManager {
         this.main = main;
         arenas = new ArrayList<>();
         filesCheck();
-
-        if(arenaData.exists()) initiateArenas();
     }
 
     private void filesCheck() {
@@ -46,7 +44,7 @@ public class ArenaManager {
         }
     }
 
-    private void initiateArenas() {
+    public void initiateArenas() {
         if(anyArenasLive()) return;
 
         arenas.clear();
@@ -158,12 +156,18 @@ public class ArenaManager {
     private JSONObject arenaToJson(Arena arena) {
         if(arena == null) return null;
 
-        JSONObject arenaJson = new JSONObject();
-        arenaJson.put("name", arena.getName());
-        arenaJson.put("spawn", Util.locationToJson(arena.getSpawn()));
-        arenaJson.put("gameSpawn", Util.locationToJson(arena.getGameSpawn()));
+        try {
+            JSONObject arenaJson = new JSONObject();
+            arenaJson.put("name", arena.getName());
+            arenaJson.put("id", arena.getId());
+            arenaJson.put("spawn", Util.locationToJson(arena.getSpawn()));
+            arenaJson.put("gameSpawn", Util.locationToJson(arena.getGameSpawn()));
 
-        return arenaJson;
+            return arenaJson;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -171,26 +175,14 @@ public class ArenaManager {
         if (jsonObject == null) return null;
 
         try {
-            JSONObject file = Util.getJsonFile(arenaData);
-            List<Object> jArenas = file.getJSONArray("arenas").toList();
-            int id = 0;
-            for(Object o : jArenas) {
-                JSONObject object = (JSONObject) o;
-                if(Objects.equals(object.toString(), jsonObject.toString())) {
-                    id = jArenas.indexOf(o);
-                    break;
-                }
-
-                if(jArenas.indexOf(o) == jArenas.size()) return null;
-            }
-
             String name = jsonObject.getString("name");
+            int id = jsonObject.getInt("id");
             Location spawn = Util.jsonToLocation(jsonObject.getJSONObject("spawn"));
             Location gameSpawn = Util.jsonToLocation(jsonObject.getJSONObject("gameSpawn"));
             if(getLobbySpawn() == null) return null;
 
-            return new Arena(main, id, name, spawn, gameSpawn);
-        } catch (IOException e) {
+            return new Arena(id, name, getRequiredPlayers(), getMaxPlayers(), getLobbySpawn(), spawn, gameSpawn, getCountdownSeconds());
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }

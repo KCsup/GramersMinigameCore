@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.kcsup.gramersgamecore.Main;
 import org.kcsup.gramersgamecore.arena.Arena;
 import org.kcsup.gramersgamecore.arena.sign.ArenaSign;
+import org.kcsup.gramersgamecore.util.Util;
 
 public class GameListener implements Listener {
     private Main main;
@@ -26,13 +27,18 @@ public class GameListener implements Listener {
             Block block = e.getClickedBlock();
 
             if(player.isOp()) {
-                if(block instanceof Sign && player.getItemInHand().equals(main.getSignManager().getSignWand())
+                if(Util.isSignMaterial(block.getType()) && player.getItemInHand().equals(main.getSignManager().getSignWand())
                         && !main.getSignManager().isSign(block.getLocation())
                         && main.getSignManager().settingSign.containsKey(player)) {
+                    e.setCancelled(true);
+
+                    player.sendMessage("Storing Sign");
                     main.getSignManager().storeSign(new ArenaSign(block.getLocation(),
                             main.getSignManager().settingSign.get(player)));
                     main.getSignManager().settingSign.remove(player);
                     player.getInventory().remove(main.getSignManager().getSignWand());
+
+                    return;
                 }
             }
 

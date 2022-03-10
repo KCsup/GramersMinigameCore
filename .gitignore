@@ -96,7 +96,6 @@ $RECYCLE.BIN/
 *.lnk
 
 target/
-src/test
 
 pom.xml.tag
 pom.xml.releaseBackup

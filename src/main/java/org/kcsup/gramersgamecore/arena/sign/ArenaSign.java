@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.kcsup.gramersgamecore.arena.Arena;
+import org.kcsup.gramersgamecore.util.Util;
 
 public class ArenaSign {
 
@@ -15,8 +16,8 @@ public class ArenaSign {
         this.location = location;
         this.arena = arena;
 
-        if(this.location.getBlock() instanceof Sign) {
-            sign = (Sign) this.location.getBlock();
+        if(Util.isSignMaterial(location.getBlock().getType())) {
+            sign = (Sign) this.location.getBlock().getState();
             reloadSign();
         }
     }
@@ -33,7 +34,9 @@ public class ArenaSign {
         for(int i = 0; i < lines.length; i++) {
             String line = lines[i];
             if(line != null) sign.setLine(i, ChatColor.translateAlternateColorCodes('&', line));
-            else sign.setLine(i, null);
+            else {
+                sign.setLine(i, "");
+            }
         }
         sign.update();
     }

@@ -1,5 +1,6 @@
 package org.kcsup.gramersgamecore.game;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.kcsup.gramersgamecore.arena.Arena;
@@ -13,9 +14,9 @@ public class Countdown extends BukkitRunnable {
     }
 
     public void begin() {
-        seconds = arena.getMain().getArenaManager().getCountdownSeconds();
+        seconds = arena.getCountdownSeconds();
         arena.setGameState(GameState.COUNTDOWN);
-        runTaskTimer(arena.getMain(), 0, 20);
+        runTaskTimer(Bukkit.getPluginManager().getPlugin("GramersGameCore"), 0, 20);
     }
 
     @Override
