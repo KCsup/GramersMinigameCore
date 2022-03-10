@@ -16,7 +16,7 @@ public class Countdown extends BukkitRunnable {
     public void begin() {
         seconds = arena.getCountdownSeconds();
         arena.setGameState(GameState.COUNTDOWN);
-        runTaskTimer(Bukkit.getPluginManager().getPlugin("GramersGameCore"), 0, 20);
+        runTaskTimer(arena.getMain(), 0, 20);
     }
 
     @Override

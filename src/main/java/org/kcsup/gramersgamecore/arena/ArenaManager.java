@@ -181,7 +181,7 @@ public class ArenaManager {
             Location gameSpawn = Util.jsonToLocation(jsonObject.getJSONObject("gameSpawn"));
             if(getLobbySpawn() == null) return null;
 
-            return new Arena(id, name, getRequiredPlayers(), getMaxPlayers(), getLobbySpawn(), spawn, gameSpawn, getCountdownSeconds());
+            return new Arena(main, id, name, spawn, gameSpawn);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

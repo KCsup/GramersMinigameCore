@@ -123,10 +123,8 @@ public class ArenaCommand implements CommandExecutor {
                         return false;
                     }
 
-                    main.getArenaManager().storeArena(new Arena(main.getArenaManager().getArenas().size(), id,
-                            main.getArenaManager().getRequiredPlayers(), main.getArenaManager().getMaxPlayers(),
-                            main.getArenaManager().getLobbySpawn(), main.getArenaManager().getLobbySpawn(),
-                            main.getArenaManager().getLobbySpawn(), main.getArenaManager().getCountdownSeconds()));
+                    main.getArenaManager().storeArena(new Arena(main, main.getArenaManager().getArenas().size(), id,
+                            main.getArenaManager().getLobbySpawn(), main.getArenaManager().getLobbySpawn()));
                     break;
                 default:
                     break;
