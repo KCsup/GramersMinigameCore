@@ -25,6 +25,7 @@ public class ArenaSign {
     public void reloadSign() {
         if(arena == null) return;
 
+        if(arena.getArenaSign() == null) arena.setArenaSign(this);
         reloadSign(arena.getSignLines());
     }
 

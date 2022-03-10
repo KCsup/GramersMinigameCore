@@ -31,9 +31,10 @@ public class GameListener implements Listener {
                         && main.getSignManager().settingSign.containsKey(player)) {
                     e.setCancelled(true);
 
+                    ArenaSign sign = new ArenaSign(block.getLocation(), main.getSignManager().settingSign.get(player));
                     player.sendMessage("Storing Sign for Arena: " + main.getSignManager().settingSign.get(player).getId());
-                    main.getSignManager().storeSign(new ArenaSign(block.getLocation(),
-                            main.getSignManager().settingSign.get(player)));
+                    main.getSignManager().storeSign(sign);
+                    sign.reloadSign();
                     main.getSignManager().settingSign.remove(player);
                     player.getInventory().remove(main.getSignManager().getSignWand());
 
