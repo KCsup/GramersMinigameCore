@@ -48,7 +48,8 @@ public class Arena {
     }
 
     public void start() {
-        gameState = GameState.LIVE;
+        setGameState(GameState.LIVE);
+        teleportPlayers(gameSpawn);
         game.start();
     }
 
