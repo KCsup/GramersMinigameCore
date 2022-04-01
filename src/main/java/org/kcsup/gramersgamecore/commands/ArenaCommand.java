@@ -73,7 +73,7 @@ public class ArenaCommand implements CommandExecutor {
                             return false;
                         }
 
-                        if (arena.getGameState() != GameState.RECRUITING || arena.isFull()) {
+                        if (arena.getGameState() == GameState.LIVE || arena.getGameState() == GameState.RESTARTING || arena.isFull()) {
                             player.sendMessage(ChatColor.RED + "You cannot join ths arena right now.\n" + error);
                             return false;
                         }

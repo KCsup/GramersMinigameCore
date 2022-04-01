@@ -1,11 +1,14 @@
 # Name of the Minigame
-game-name: ""
+game-name: Template
+command-name: temp
+command-aliases:
+  - arena
 
 countdown: 30
 required-players: 2
 max-players: 10
 lobby-spawn:
-  world: "world"
+  world: world
   x: 0
   y: 0
   z: 0

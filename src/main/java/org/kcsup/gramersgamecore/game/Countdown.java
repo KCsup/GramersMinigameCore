@@ -6,22 +6,30 @@ import org.kcsup.gramersgamecore.arena.Arena;
 
 public class Countdown extends BukkitRunnable {
     private Arena arena;
+    private boolean begun;
     private int seconds;
 
     public Countdown(Arena arena) {
         this.arena = arena;
+        begun = false;
     }
 
     public void begin() {
         seconds = arena.getCountdownSeconds();
         arena.setGameState(GameState.COUNTDOWN);
+        begun = true;
         runTaskTimer(arena.getMain(), 0, 20);
+    }
+
+    public void stop() {
+        this.cancel();
+        begun = false;
     }
 
     @Override
     public void run() {
         if(seconds == 0) {
-            cancel();
+            stop();
             arena.start();
             return;
         }
@@ -35,5 +43,9 @@ public class Countdown extends BukkitRunnable {
         }
 
         seconds--;
+    }
+
+    public boolean hasBegun() {
+        return begun;
     }
 }

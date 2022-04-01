@@ -1,6 +1,5 @@
 package org.kcsup.gramersgamecore.arena;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -13,14 +12,13 @@ import org.kcsup.gramersgamecore.game.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Arena {
     private Main main;
 
     private int id;
     private String name;
-    private List<UUID> players;
+    private List<Player> players;
 
     // Notes of clarification
     private Location spawn; // Waiting spawn
@@ -68,14 +66,13 @@ public class Arena {
 
     public void resetCountdown() {
 //        teleportPlayers(spawn);
-        countdown.cancel();
+        countdown.stop();
         sendMessage(ChatColor.RED + "Waiting for more players.");
         setGameState(GameState.RECRUITING);
     }
 
     public void teleportPlayers(Location location) {
-        for(UUID uuid : players) {
-            Player player = Bukkit.getPlayer(uuid);
+        for(Player player : players) {
             if(player == null) continue;
 
             player.teleport(location);
@@ -83,8 +80,7 @@ public class Arena {
     }
 
     public void sendMessage(String message) {
-        for (UUID uuid : players) {
-            Player player = Bukkit.getPlayer(uuid);
+        for (Player player : players) {
             if(player == null) continue;
 
             player.sendMessage(message);
@@ -92,8 +88,7 @@ public class Arena {
     }
 
     public void sendSound(Sound sound, float volume, float pitch) {
-        for (UUID uuid : players) {
-            Player player = Bukkit.getPlayer(uuid);
+        for (Player player : players) {
             if(player == null) continue;
 
             player.playSound(player.getLocation(), sound, volume, pitch);
@@ -101,8 +96,7 @@ public class Arena {
     }
 
     public void sendTitle(String title, String subtitle) {
-        for (UUID uuid : players) {
-            Player player = Bukkit.getPlayer(uuid);
+        for (Player player : players) {
             if(player == null) continue;
 
             player.sendTitle(title, subtitle);
@@ -110,20 +104,20 @@ public class Arena {
     }
 
     public void addPlayer(Player player) {
-        if(players.contains(player.getUniqueId()) || isFull()) return;
+        if(players.contains(player) || isFull()) return;
 
-        players.add(player.getUniqueId());
+        players.add(player);
         player.teleport(spawn);
         sendMessage(ChatColor.GREEN + player.getName() + " has joined!");
 
-        if(hasRequiredPlayers()) countdown.begin();
+        if(hasRequiredPlayers() && !countdown.hasBegun()) countdown.begin();
         else reloadSign();
     }
 
     public void removePlayer(Player player) {
-        if(!players.contains(player.getUniqueId())) return;
+        if(!players.contains(player)) return;
 
-        players.remove(player.getUniqueId());
+        players.remove(player);
         player.teleport(getLobbySpawn());
 
         sendMessage(ChatColor.GREEN + player.getName() + " has quit!");
@@ -177,7 +171,7 @@ public class Arena {
         return name;
     }
 
-    public List<UUID> getPlayers() { return players; }
+    public List<Player> getPlayers() { return players; }
 
     public int getRequiredPlayers() {
         return main.getArenaManager().getRequiredPlayers();

@@ -1,6 +1,7 @@
 package org.kcsup.gramersgamecore;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kcsup.gramersgamecore.arena.Arena;
 import org.kcsup.gramersgamecore.arena.ArenaManager;
@@ -25,7 +26,10 @@ public final class Main extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new GameListener(this), this);
 
-        getCommand("arena").setExecutor(new ArenaCommand(this));
+        PluginCommand arenaCommand = getCommand("arena");
+        arenaCommand.setName("");
+        arenaCommand.setExecutor(new ArenaCommand(this));
+
     }
 
     public ArenaManager getArenaManager() { return arenaManager; }

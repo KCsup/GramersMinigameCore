@@ -1,6 +1,5 @@
 package org.kcsup.gramersgamecore.game;
 
-import org.bukkit.Location;
 import org.kcsup.gramersgamecore.arena.Arena;
 
 public class Game {

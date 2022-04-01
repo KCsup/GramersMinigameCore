@@ -66,7 +66,7 @@ public class ArenaManager {
 
     public boolean isPlaying(Player player) {
         for(Arena arena : arenas) {
-            if(arena.getPlayers().contains(player.getUniqueId())) return true;
+            if(arena.getPlayers().contains(player)) return true;
         }
 
         return false;
@@ -74,7 +74,7 @@ public class ArenaManager {
 
     public Arena getArena(Player player) {
         for(Arena arena : arenas) {
-            if(arena.getPlayers().contains(player.getUniqueId())) return arena;
+            if(arena.getPlayers().contains(player)) return arena;
         }
 
         return null;
