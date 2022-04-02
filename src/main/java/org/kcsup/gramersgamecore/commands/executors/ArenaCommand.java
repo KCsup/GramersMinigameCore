@@ -1,4 +1,4 @@
-package org.kcsup.gramersgamecore.commands;
+package org.kcsup.gramersgamecore.commands.executors;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -26,8 +26,9 @@ public class ArenaCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
+        String name = main.getConfig().getString("command-name");
         String error = ChatColor.RED + "Invalid usage. Correct usage is:" +
-                "\n- /arena list" + "\n- /arena join [id]" + "\n- /arena leave";
+                "\n- /" + name +" list" + "\n- /" + name + " join [id]" + "\n- /" + name + " leave";
 
         if(args.length == 1) {
             switch (args[0].toLowerCase()) {
