@@ -1,5 +1,6 @@
 # Name of the Minigame
 game-name: Template
+game-description: Description
 command-name: temp
 command-aliases:
   - arena

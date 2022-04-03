@@ -49,6 +49,10 @@ public class Arena {
         setGameState(GameState.LIVE);
         teleportPlayers(gameSpawn);
         game.start();
+        sendMessage(ChatColor.GREEN + "--------------------------------------------\n" +
+                ChatColor.YELLOW + main.getConfig().getString("game-name") + "\n" +
+                ChatColor.AQUA + main.getConfig().getString("game-description") + "\n" +
+                ChatColor.GREEN + "--------------------------------------------");
     }
 
     public void reset() {
