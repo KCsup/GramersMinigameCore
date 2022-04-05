@@ -1,13 +1,13 @@
-package org.kcsup.gramersgamecore;
+package org.kcsup.minigamecore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.kcsup.gramersgamecore.arena.Arena;
-import org.kcsup.gramersgamecore.arena.ArenaManager;
-import org.kcsup.gramersgamecore.arena.sign.SignManager;
-import org.kcsup.gramersgamecore.commands.CustomCommand;
-import org.kcsup.gramersgamecore.commands.executors.ArenaCommand;
-import org.kcsup.gramersgamecore.game.GameListener;
+import org.kcsup.minigamecore.arena.Arena;
+import org.kcsup.minigamecore.arena.ArenaManager;
+import org.kcsup.minigamecore.arena.sign.SignManager;
+import org.kcsup.minigamecore.commands.CustomCommand;
+import org.kcsup.minigamecore.commands.executors.ArenaCommand;
+import org.kcsup.minigamecore.game.GameListener;
 
 public final class Main extends JavaPlugin {
     private ArenaManager arenaManager;

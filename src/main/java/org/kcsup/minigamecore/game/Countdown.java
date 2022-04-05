@@ -1,8 +1,8 @@
-package org.kcsup.gramersgamecore.game;
+package org.kcsup.minigamecore.game;
 
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.kcsup.gramersgamecore.arena.Arena;
+import org.kcsup.minigamecore.arena.Arena;
 
 public class Countdown extends BukkitRunnable {
     private Arena arena;

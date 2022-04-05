@@ -1,4 +1,4 @@
-package org.kcsup.gramersgamecore.commands.executors;
+package org.kcsup.minigamecore.commands.executors;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -6,9 +6,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.kcsup.gramersgamecore.Main;
-import org.kcsup.gramersgamecore.arena.Arena;
-import org.kcsup.gramersgamecore.game.GameState;
+import org.kcsup.minigamecore.Main;
+import org.kcsup.minigamecore.arena.Arena;
+import org.kcsup.minigamecore.game.GameState;
 
 public class ArenaCommand implements CommandExecutor {
     private Main main;

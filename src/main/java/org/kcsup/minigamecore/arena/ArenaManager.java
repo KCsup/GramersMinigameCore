@@ -1,4 +1,4 @@
-package org.kcsup.gramersgamecore.arena;
+package org.kcsup.minigamecore.arena;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.kcsup.gramersgamecore.Main;
-import org.kcsup.gramersgamecore.game.GameState;
-import org.kcsup.gramersgamecore.util.Util;
+import org.kcsup.minigamecore.Main;
+import org.kcsup.minigamecore.game.GameState;
+import org.kcsup.minigamecore.util.Util;
 
 import java.io.File;
 import java.io.IOException;

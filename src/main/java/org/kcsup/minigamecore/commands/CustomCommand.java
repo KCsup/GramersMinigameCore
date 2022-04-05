@@ -1,4 +1,4 @@
-package org.kcsup.gramersgamecore.commands;
+package org.kcsup.minigamecore.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;

@@ -1,4 +1,4 @@
-package org.kcsup.gramersgamecore.util;
+package org.kcsup.minigamecore.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,6 +1,6 @@
-package org.kcsup.gramersgamecore.game;
+package org.kcsup.minigamecore.game;
 
-import org.kcsup.gramersgamecore.arena.Arena;
+import org.kcsup.minigamecore.arena.Arena;
 
 public class Game {
 

@@ -1,14 +1,14 @@
-package org.kcsup.gramersgamecore.arena;
+package org.kcsup.minigamecore.arena;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.kcsup.gramersgamecore.Main;
-import org.kcsup.gramersgamecore.arena.sign.ArenaSign;
-import org.kcsup.gramersgamecore.game.Countdown;
-import org.kcsup.gramersgamecore.game.Game;
-import org.kcsup.gramersgamecore.game.GameState;
+import org.kcsup.minigamecore.Main;
+import org.kcsup.minigamecore.arena.sign.ArenaSign;
+import org.kcsup.minigamecore.game.Countdown;
+import org.kcsup.minigamecore.game.Game;
+import org.kcsup.minigamecore.game.GameState;
 
 import java.util.ArrayList;
 import java.util.List;

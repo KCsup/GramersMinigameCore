@@ -1,4 +1,4 @@
-package org.kcsup.gramersgamecore.game;
+package org.kcsup.minigamecore.game;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.kcsup.gramersgamecore.Main;
-import org.kcsup.gramersgamecore.arena.Arena;
-import org.kcsup.gramersgamecore.arena.sign.ArenaSign;
-import org.kcsup.gramersgamecore.util.Util;
+import org.kcsup.minigamecore.Main;
+import org.kcsup.minigamecore.arena.Arena;
+import org.kcsup.minigamecore.arena.sign.ArenaSign;
+import org.kcsup.minigamecore.util.Util;
 
 public class GameListener implements Listener {
     private Main main;
