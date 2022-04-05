@@ -1,5 +1,5 @@
-name: GramersGameCore
+name: MinecraftMinigameCore
 version: '${project.version}'
-main: org.kcsup.gramersgamecore.Main
+main: org.kcsup.minigamecore.Main
 api-version: 1.8.8
 description: The core plugin for Gramers mingame plugins.
